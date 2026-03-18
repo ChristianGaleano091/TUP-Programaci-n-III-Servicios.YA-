@@ -14,7 +14,7 @@ Por otro lado, los prestadores pueden aumentar su visibilidad publicando sus ser
 
 ## 👥 Integrantes del Grupo
 
-* Miqueas
+* Miqueas Gabriel Müller
 * Agustín
 * Christian Guillermo Galeano
 * Judith Geraldina Magalí Capriz
