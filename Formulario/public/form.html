@@ -1,0 +1,48 @@
+<link rel="stylesheet" href="form.css">
+
+<form action="/services" method="POST">
+  <!---->
+  <label>Nombre de usuario:</label>
+  <input type="text" name="user_name" required minlength="3" maxlength="50"><br>
+
+  <label>DNI:</label>
+  <input type="text" name="dni" required pattern="\d{7,8}"><br>
+
+  <label>Nombre del servicio:</label>
+  <input type="text" name="name" required minlength="3" maxlength="50"><br>
+
+  <label>Descripción:</label>
+  <textarea name="description" required></textarea><br>
+
+  <label>Categoría:</label>
+  <select name="category" required>
+    <option value="hogar">Hogar</option>
+    <option value="tecnologia">Tecnología</option>
+    <option value="transporte">Transporte</option>
+  </select><br>
+
+  <label>Precio:</label>
+  <input type="number" name="price" step="0.01" min="0.01" required><br>
+
+  <label>Fecha de nacimiento:</label>
+  <input type="date" name="birth_date" required><br>
+
+  <!---->
+  <label>Fecha:</label>
+  <input type="date" name="date" required><br>
+
+  <!-- <label>Hora:</label>
+  <input type="time" name="time" required><br> -->
+
+  <label>Ubicación:</label>
+  <input type="text" name="location" required><br>
+
+  <!---->
+  <label>Email:</label>
+  <input type="email" name="email" required><br>
+
+  <label>Teléfono:</label>
+  <input type="tel" name="phone" required><br>
+
+  <button type="submit">Enviar</button>
+</form>
