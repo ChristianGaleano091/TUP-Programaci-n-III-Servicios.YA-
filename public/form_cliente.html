@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Servicios Ya - Registro de Cliente</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="auth-wrapper" style="max-width: 600px;">
+    <div class="glass-panel">
+      <h2
+        style="font-size: 1.8rem; margin-bottom: 0.5rem; background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+        Registro de Cliente</h2>
+      <p class="subtitle" style="margin-bottom: 1rem;">Completa tus datos personales</p>
+
+      <form id="clienteForm" action="http://localhost/Formulario/public/clientes" method="POST">
+        <div class="form-group">
+          <label>Nombre del cliente:</label>
+          <input type="text" name="name" required minlength="3" maxlength="50">
+        </div>
+
+        <div class="form-group">
+          <label>DNI:</label>
+          <input type="text" name="dni" required pattern="\d{7,8}">
+        </div>
+
+        <div class="form-group">
+          <label>Ubicación:</label>
+          <input type="text" name="location" required minlength="5" maxlength="100">
+        </div>
+
+        <div class="form-group">
+          <label>Email:</label>
+          <input type="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+          <label>Contraseña:</label>
+          <input type="password" name="password" required minlength="6" placeholder="Mínimo 6 caracteres">
+        </div>
+
+        <div class="form-group">
+          <label>Teléfono:</label>
+          <input type="tel" name="phone" required pattern="\d{8,15}">
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Registrarse como Cliente</button>
+      </form>
+
+      <div id="mensaje"
+        style="display:none; padding:10px; margin-top:20px; border-radius:10px; border:1px solid #4CAF50; background:rgba(76, 175, 80, 0.1); color:#4CAF50;">
+        ¡Cliente registrado con éxito!
+      </div>
+
+      <a href="home.html" class="btn btn-text">← Volver al inicio</a>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("clienteForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const response = await fetch(this.action, {
+        method: this.method,
+        body: formData
+      });
+      const data = await response.json();
+
+      if (data.ok) {
+        document.getElementById("mensaje").style.display = "block";
+        this.reset();
+      } else {
+        alert("Error: " + (data.errors ? JSON.stringify(data.errors) : data.error));
+      }
+    });
+  </script>
+</body>
+
+</html>
