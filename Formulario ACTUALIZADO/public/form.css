@@ -1,0 +1,75 @@
+/* Estilo general */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 15px;
+}
+
+/* Contenedor del formulario */
+form {
+  background-color: #ffffff;
+  max-width: 500px;
+  margin: auto;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Etiquetas */
+label {
+  display: block;
+  margin-bottom: 0px;
+  font-weight: bold;
+  color: #333333;
+}
+
+/* Campos de entrada */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="date"],
+select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+input[name="phone"] {
+  margin-bottom: 25px;
+}
+
+input:focus,
+select:focus {
+  border-color: #0066cc;
+  outline: none;
+}
+
+/* Botón */
+button {
+  background-color: #0066cc;
+  color: #ffffff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #004999;
+}
+
+/* Mensajes de error */
+.error {
+  color: #cc0000;
+  font-size: 13px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
