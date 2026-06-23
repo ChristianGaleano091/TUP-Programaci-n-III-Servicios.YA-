@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SERVICIOSYA! - Perfil Prestador</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <style>
+    .profile-layout { display:grid; grid-template-columns:1.2fr 0.8fr; gap:1.5rem; }
+    .profile-block { border-radius:28px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); padding:1.5rem; }
+    .profile-header { display:flex; flex-wrap:wrap; justify-content:space-between; gap:1rem; align-items:center; margin-bottom:1.25rem; }
+    .avatar-large { width:90px; height:90px; border-radius:24px; background:linear-gradient(135deg,#818cf8,#c084fc); display:grid; place-items:center; color:white; font-size:2rem; font-weight:800; }
+    .profile-title { margin:0 0 0.5rem 0; font-size:2rem; }
+    .tag-pill { display:inline-flex; align-items:center; gap:0.35rem; padding:0.6rem 1rem; border-radius:999px; background:rgba(129,140,248,0.18); color:#e0e7ff; font-weight:700; text-transform:uppercase; font-size:0.82rem; }
+    .stats-row { display:flex; flex-wrap:wrap; gap:1rem; margin-top:1rem; }
+    .stat-card { flex:1; min-width:130px; padding:1rem; border-radius:20px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); text-align:center; }
+    .stat-card strong { display:block; font-size:1.5rem; margin-bottom:0.25rem; }
+    .service-list { display:grid; gap:1rem; }
+    .service-card { display:grid; grid-template-columns:1fr auto; gap:1rem; align-items:center; padding:1.25rem; border-radius:24px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.12); }
+    .service-card h3 { margin:0 0 0.35rem 0; }
+    .service-info { color:#cbd5e1; line-height:1.6; margin:0; }
+    .service-action { display:grid; gap:0.75rem; justify-items:end; text-align:right; }
+    .service-action .price { color:#818cf8; font-weight:800; font-size:1.25rem; }
+    .book-btn { padding:0.95rem 1rem; border-radius:18px; background:#818cf8; color:white; border:none; cursor:pointer; font-weight:800; }
+    .book-btn:hover { transform: translateY(-2px); }
+    @media(max-width:900px){ .profile-layout{grid-template-columns:1fr;} .service-card{grid-template-columns:1fr;} .service-action{justify-items:start;text-align:left;} }
+  </style>
+</head>
+<body>
+  <div class="auth-wrapper" style="max-width:1100px;">
+    <div class="glass-panel">
+      <div class="profile-header">
+        <div>
+          <a href="ServiciosYa.Categorias.html" class="btn btn-secondary" style="margin-bottom:1rem;">← Volver</a>
+          <h1 class="profile-title">Juan Carlos Pérez</h1>
+          <p class="subtitle">Técnico matriculado con 8 años de experiencia en climatización y electricidad.</p>
+          <div class="tag-pill">Climatización y Electricidad</div>
+        </div>
+        <div class="avatar-large">JP</div>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card"><strong>42</strong>Trabajos</div>
+        <div class="stat-card"><strong>4.9★</strong>Promedio</div>
+        <div class="stat-card"><strong>100%</strong>Garantía</div>
+      </div>
+      <div class="profile-layout">
+        <section class="profile-block">
+          <h2 style="margin-top:0;">Sobre Mí</h2>
+          <p style="color:#cbd5e1; line-height:1.75;">Ofrezco un servicio serio y profesional en instalaciones domiciliarias y comerciales. Puntualidad, presupuesto cerrado y trabajo certificado.</p>
+          <div style="display:grid; gap:1rem; margin-top:1.5rem; grid-template-columns: repeat(2, minmax(0,1fr));">
+            <div style="padding:1rem; border-radius:22px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);">Instalación Split</div>
+            <div style="padding:1rem; border-radius:22px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);">Diagnóstico profesional</div>
+          </div>
+        </section>
+        <aside class="profile-block">
+          <h2 style="margin-top:0;">Servicios Disponibles</h2>
+          <div class="service-list">
+            <div class="service-card">
+              <div>
+                <h3>Instalación Split (hasta 3000F)</h3>
+                <p class="service-info">Instalación completa con prueba de vacío y conexión hidráulica.</p>
+              </div>
+              <div class="service-action">
+                <span class="price">$45.000</span>
+                <button class="book-btn">Reservar</button>
+              </div>
+            </div>
+            <div class="service-card">
+              <div>
+                <h3>Service y recarga de gas</h3>
+                <p class="service-info">Control de fugas, limpieza y recarga de refrigerante.</p>
+              </div>
+              <div class="service-action">
+                <span class="price">$32.000</span>
+                <button class="book-btn">Reservar</button>
+              </div>
+            </div>
+            <div class="service-card">
+              <div>
+                <h3>Visita técnica</h3>
+                <p class="service-info">Diagnóstico de su equipo y presupuesto inmediato.</p>
+              </div>
+              <div class="service-action">
+                <span class="price">$15.000</span>
+                <button class="book-btn">Reservar</button>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <script>
+    const serviceButtons = document.querySelectorAll('.book-btn');
+    const serviceNames = ['Instalación Split', 'Service y recarga de gas', 'Visita técnica'];
+    const serviceCategories = ['climatizacion', 'climatizacion', 'climatizacion'];
+    const prestadorId = 1;
+
+    serviceButtons.forEach((btn, index) => {
+      btn.addEventListener('click', () => {
+        const serviceName = encodeURIComponent(serviceNames[index]);
+        const category = encodeURIComponent(serviceCategories[index]);
+        const prestador = encodeURIComponent('Juan Carlos Pérez');
+        window.location.href = `ServiciosYa.Turno.html?prestador=${prestador}&prestador_id=${prestadorId}&serviceName=${serviceName}&category=${category}`;
+      });
+    });
+  </script>
+</body>
+</html>

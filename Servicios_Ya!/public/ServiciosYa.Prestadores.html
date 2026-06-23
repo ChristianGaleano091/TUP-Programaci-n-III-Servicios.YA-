@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SERVICIOSYA! - Prestadores</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <style>
+    .providers-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
+    .providers-header h1 { margin: 0; }
+    
+    /* Filtros */
+    .filter-bar { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 1.2rem; border-radius: 20px; }
+    .filter-group { flex: 1; min-width: 200px; display: flex; flex-direction: column; gap: 0.5rem; text-align: left; }
+    .filter-group label { font-weight: 700; color: #cbd5e1; font-size: 0.9rem; }
+    .filter-group select, .filter-group input { width: 100%; padding: 0.85rem 1rem; border-radius: 14px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05); color: white; font-size: 0.95rem; }
+    .filter-group select:focus, .filter-group input:focus { outline: none; border-color: #818cf8; box-shadow: 0 0 0 3px rgba(129,140,248,0.18); }
+    
+    /* Grid de Prestadores */
+    .providers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; text-align: left; }
+    
+    /* Tarjeta de Prestador */
+    .provider-card { display: flex; flex-direction: column; justify-content: space-between; border-radius: 24px; padding: 1.5rem; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); transition: transform 0.2s ease, border-color 0.2s ease; }
+    .provider-card:hover { transform: translateY(-4px); border-color: rgba(129,140,248,0.4); }
+    
+    .provider-top { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; }
+    .provider-avatar { width: 56px; height: 56px; border-radius: 18px; background: linear-gradient(135deg, #818cf8, #c084fc); display: grid; place-items: center; color: white; font-size: 1.4rem; font-weight: 800; }
+    .provider-meta { display: flex; flex-direction: column; gap: 0.25rem; }
+    .provider-name { font-size: 1.15rem; font-weight: 800; margin: 0; color: white; }
+    
+    .badge-row { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; margin-top: 0.25rem; }
+    .category-badge { padding: 0.35rem 0.75rem; border-radius: 999px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: white; }
+    .location-badge { display: flex; align-items: center; gap: 0.25rem; color: #94a3b8; font-size: 0.82rem; }
+    .location-badge span { font-size: 16px; }
+    
+    .provider-description { color: #cbd5e1; font-size: 0.92rem; line-height: 1.5; margin: 0 0 1.25rem 0; min-height: 55px; }
+    
+    .provider-contacts { display: flex; flex-direction: column; gap: 0.5rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1rem; margin-bottom: 1.25rem; font-size: 0.85rem; color: #94a3b8; }
+    .contact-item { display: flex; align-items: center; gap: 0.5rem; }
+    .contact-item span { font-size: 18px; color: #818cf8; }
+    
+    /* Colores Categorías */
+    .bg-green { background: #22c55e; }
+    .bg-yellow { background: #eab308; }
+    .bg-cyan { background: #06b6d4; }
+    .bg-red { background: #ef4444; }
+    .bg-purple { background: #8b5cf6; }
+    .bg-orange { background: #fb923c; }
+    .bg-lime { background: #84cc16; }
+    .bg-pink { background: #ec4899; }
+    .bg-gray { background: #64748b; }
+    
+    @media(max-width: 600px) {
+      .providers-header { flex-direction: column; align-items: flex-start; }
+      .providers-header a { width: 100%; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-wrapper" style="max-width:1200px;">
+    <div class="glass-panel">
+      <div class="providers-header">
+        <div>
+          <h1>Prestadores Disponibles</h1>
+          <p class="subtitle" style="margin: 0.25rem 0 0 0;">Encontrá el profesional calificado que necesitás.</p>
+        </div>
+        <a href="ServiciosYa.Categorias.html" class="btn btn-secondary">← Volver</a>
+      </div>
+      
+      <!-- Panel de Filtros -->
+      <section class="filter-bar">
+        <div class="filter-group">
+          <label for="categoryFilter">Rubro o Categoría</label>
+          <select id="categoryFilter">
+            <option value="todos">Todos los rubros</option>
+            <option value="electricidad">Electricidad</option>
+            <option value="plomeria">Plomería</option>
+            <option value="gas_y_aire">Gas y Aire</option>
+            <option value="pintura">Pintura</option>
+            <option value="albanileria">Albañilería</option>
+            <option value="carpinteria">Carpintería</option>
+            <option value="cerrajeria">Cerrajería</option>
+            <option value="fletes">Fletes</option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label for="searchFilter">Buscar por nombre o ubicación</label>
+          <input type="text" id="searchFilter" placeholder="Ej: Carlos o Palermo...">
+        </div>
+      </section>
+      
+      <!-- Listado de Prestadores -->
+      <main class="providers-grid" id="providersGrid">
+        <p style="color:#cbd5e1; grid-column: 1 / -1; text-align: center;">Cargando prestadores...</p>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const providersGrid = document.getElementById('providersGrid');
+      const categoryFilter = document.getElementById('categoryFilter');
+      const searchFilter = document.getElementById('searchFilter');
+      
+      let allProviders = [];
+
+      const categoryLabels = {
+        electricidad: 'Electricidad',
+        plomeria: 'Plomería',
+        gas_y_aire: 'Gas y Aire',
+        pintura: 'Pintura',
+        albanileria: 'Albañilería',
+        carpinteria: 'Carpintería',
+        cerrajeria: 'Cerrajería',
+        fletes: 'Fletes',
+        climatizacion: 'Climatización'
+      };
+
+      const categoryColors = {
+        electricidad: 'bg-green',
+        plomeria: 'bg-yellow',
+        gas_y_aire: 'bg-cyan',
+        pintura: 'bg-red',
+        albanileria: 'bg-purple',
+        carpinteria: 'bg-orange',
+        cerrajeria: 'bg-lime',
+        fletes: 'bg-pink',
+        climatizacion: 'bg-cyan'
+      };
+
+      function getFrontendCategory(name, dbCategory) {
+        const serviceName = (name || '').toLowerCase();
+        
+        if (serviceName.includes('pint')) return 'pintura';
+        if (serviceName.includes('electric') || serviceName.includes('electr')) return 'electricidad';
+        if (serviceName.includes('plomer') || serviceName.includes('plumb')) return 'plomeria';
+        if (serviceName.includes('gas') || serviceName.includes('aire') || serviceName.includes('clima')) return 'gas_y_aire';
+        if (serviceName.includes('albañ') || serviceName.includes('alban')) return 'albanileria';
+        if (serviceName.includes('carpin')) return 'carpinteria';
+        if (serviceName.includes('cerraj')) return 'cerrajeria';
+        if (serviceName.includes('flete') || serviceName.includes('mudan')) return 'fletes';
+        
+        return dbCategory;
+      }
+
+      // 1. Cargar prestadores desde la API
+      async function loadProviders() {
+        try {
+          const response = await fetch('/Formulario/public/index.php/prestadores');
+          const data = await response.json();
+          
+          if (data.ok) {
+            allProviders = data.prestadores.map(p => {
+              p.category = getFrontendCategory(p.name, p.category);
+              return p;
+            });
+            
+            // Verificar si viene una categoría por parámetro en la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const categoryParam = urlParams.get('category');
+            if (categoryParam && Array.from(categoryFilter.options).some(opt => opt.value === categoryParam)) {
+              categoryFilter.value = categoryParam;
+              filterProviders();
+            } else {
+              renderProviders(allProviders);
+            }
+          } else {
+            showError(data.error || 'Error al cargar prestadores');
+          }
+        } catch (error) {
+          showError('Error de red al conectar con el servidor.');
+        }
+      }
+
+      function showError(msg) {
+        providersGrid.innerHTML = `<p style="color:#ef4444; grid-column: 1 / -1; text-align: center;">${msg}</p>`;
+      }
+
+      // 2. Renderizar tarjetas de prestadores
+      function renderProviders(providers) {
+        providersGrid.innerHTML = '';
+        
+        if (providers.length === 0) {
+          providersGrid.innerHTML = '<p style="color:#cbd5e1; grid-column: 1 / -1; text-align: center;">No se encontraron prestadores que coincidan con los filtros.</p>';
+          return;
+        }
+
+        providers.forEach(p => {
+          const card = document.createElement('div');
+          card.className = 'provider-card';
+
+          // Iniciales
+          const parts = p.name.trim().split(/\s+/);
+          const initials = parts.map(n => n[0]).join('').substring(0, 2).toUpperCase();
+
+          const catColor = categoryColors[p.category] || 'bg-gray';
+          const catLabel = categoryLabels[p.category] || p.category;
+
+          card.innerHTML = `
+            <div>
+              <div class="provider-top">
+                <div class="provider-avatar">${initials}</div>
+                <div class="provider-meta">
+                  <h3 class="provider-name">${p.name}</h3>
+                  <div class="badge-row">
+                    <span class="category-badge ${catColor}">${catLabel}</span>
+                    <span class="location-badge">
+                      <span class="material-symbols-rounded">location_on</span>
+                      ${p.location}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <p class="provider-description">${p.description || 'Sin descripción disponible.'}</p>
+            </div>
+            <div>
+              <div class="provider-contacts">
+                <div class="contact-item">
+                  <span class="material-symbols-rounded">mail</span>
+                  ${p.email}
+                </div>
+                <div class="contact-item">
+                  <span class="material-symbols-rounded">phone</span>
+                  ${p.phone}
+                </div>
+              </div>
+              <a href="ServiciosYa.Turno.html?prestador=${encodeURIComponent(p.name)}&category=${p.category}" class="btn btn-primary btn-block" style="margin-top:0;">
+                Reservar Turno
+              </a>
+            </div>
+          `;
+
+          providersGrid.appendChild(card);
+        });
+      }
+
+      // 3. Filtrar prestadores
+      function filterProviders() {
+        const selectedCat = categoryFilter.value;
+        const searchVal = searchFilter.value.toLowerCase().trim();
+
+        const filtered = allProviders.filter(p => {
+          const matchCat = (selectedCat === 'todos') || (p.category === selectedCat);
+          const matchSearch = !searchVal || 
+                              p.name.toLowerCase().includes(searchVal) || 
+                              p.location.toLowerCase().includes(searchVal);
+          return matchCat && matchSearch;
+        });
+
+        renderProviders(filtered);
+      }
+
+      // Escuchadores de eventos
+      categoryFilter.addEventListener('change', filterProviders);
+      searchFilter.addEventListener('input', filterProviders);
+
+      // Carga inicial
+      loadProviders();
+    });
+  </script>
+</body>
+</html>

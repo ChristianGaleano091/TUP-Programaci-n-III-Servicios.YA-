@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SERVICIOSYA! - Categorías</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <style>
+    .categories-header { text-align:center; margin-bottom:1.5rem; }
+    .categories-header h1 { margin-bottom:0.35rem; font-size:2rem; }
+    .apps-grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap:1rem; }
+    .app-item { display:block; border-radius:24px; padding:1.5rem; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.04); color:white; text-decoration:none; transition:transform 0.2s ease, background 0.2s ease; }
+    .app-item:hover { transform: translateY(-4px); background:rgba(129,140,248,0.14); }
+    .app-icon-box { width:64px; height:64px; border-radius:20px; display:grid; place-items:center; margin-bottom:1rem; color:white; }
+    .app-label { font-size:1rem; font-weight:800; text-transform:uppercase; margin-bottom:0.5rem; }
+    .app-description { color:#cbd5e1; font-size:0.92rem; line-height:1.5; }
+    .bg-green { background:#22c55e; }
+    .bg-yellow { background:#eab308; }
+    .bg-cyan { background:#06b6d4; }
+    .bg-red { background:#ef4444; }
+    .bg-purple { background:#8b5cf6; }
+    .bg-orange { background:#fb923c; }
+    .bg-lime { background:#84cc16; }
+    .bg-pink { background:#ec4899; }
+    .top-actions { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1rem; }
+  </style>
+</head>
+<body>
+  <div class="auth-wrapper" style="max-width:1120px;">
+    <div class="glass-panel">
+      <div class="top-actions">
+        <div class="categories-header">
+          <h1>Categorías de Servicios</h1>
+          <p class="subtitle">Seleccioná la categoría que mejor se adapta a tu necesidad.</p>
+        </div>
+        <div>
+          <a href="ServiosYa.PerfilCliente.html" class="btn btn-primary" style="margin-right:0.75rem;">Mi perfil</a>
+          <a href="home.html" class="btn btn-secondary">← Volver</a>
+        </div>
+      </div>
+
+      <main class="apps-grid">
+        <a class="app-item" href="ServiciosYa.Prestadores.html?category=electricidad">
+          <div class="app-icon-box bg-green"><span class="material-symbols-rounded">bolt</span></div>
+          <div class="app-label">Electricidad</div>
+          <div class="app-description">Instalaciones y reparaciones eléctricas.</div>
+        </a>
+        <a class="app-item" href="ServiciosYa.Prestadores.html?category=plomeria">
+          <div class="app-icon-box bg-yellow"><span class="material-symbols-rounded">plumbing</span></div>
+          <div class="app-label">Plomería</div>
+          <div class="app-description">Arreglo de caños y desagües.</div>
+        </a>
+        <a class="app-item" href="ServiciosYa.Prestadores.html?category=gas_y_aire">
+          <div class="app-icon-box bg-cyan"><span class="material-symbols-rounded">ac_unit</span></div>
+          <div class="app-label">Gas y Aire</div>
+          <div class="app-description">Aire acondicionado, gasista y climatización.</div>
+        </a>
+        <a class="app-item" href="ServiciosYa.Prestadores.html?category=pintura">
+          <div class="app-icon-box bg-red"><span class="material-symbols-rounded">format_paint</span></div>
+          <div class="app-label">Pintura</div>
+          <div class="app-description">Pintura de interiores, exteriores y detalles.</div>
+        </a>
+        <a class="app-item" href="ServiciosYa.Prestadores.html?category=albanileria">
+          <div class="app-icon-box bg-purple"><span class="material-symbols-rounded">construction</span></div>
+          <div class="app-label">Albañilería</div>
+          <div class="app-description">Revoques, pisos y más.</div>
+        </a>
+        <a class="app-item" href="ServiciosYa.Prestadores.html?category=carpinteria">
+          <div class="app-icon-box bg-orange"><span class="material-symbols-rounded">carpenter</span></div>
+          <div class="app-label">Carpintería</div>
+          <div class="app-description">Muebles a medida y reparaciones en madera.</div>
+        </a>
+        <a class="app-item" href="ServiciosYa.Prestadores.html?category=cerrajeria">
+          <div class="app-icon-box bg-lime"><span class="material-symbols-rounded">lock</span></div>
+          <div class="app-label">Cerrajería</div>
+          <div class="app-description">Apertura de puertas y llaves nuevas.</div>
+        </a>
+        <a class="app-item" href="ServiciosYa.Prestadores.html?category=fletes">
+          <div class="app-icon-box bg-pink"><span class="material-symbols-rounded">local_shipping</span></div>
+          <div class="app-label">Fletes</div>
+          <div class="app-description">Mudanzas y traslados rápidos.</div>
+        </a>
+        <a class="app-item" href="ServiciosYa.Prestadores.html" style="border: 2px dashed #818cf8; background: rgba(129,140,248,0.06); transition: all 0.2s ease;">
+          <div class="app-icon-box" style="background: linear-gradient(135deg, #818cf8, #c084fc);"><span class="material-symbols-rounded">group</span></div>
+          <div class="app-label" style="color: #c084fc;">Ver Prestadores</div>
+          <div class="app-description" style="color: #cbd5e1;">Explorá y contactá a todos los prestadores disponibles.</div>
+        </a>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

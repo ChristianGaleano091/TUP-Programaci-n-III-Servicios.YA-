@@ -1,0 +1,107 @@
+/* Backup of public/form.css created before deletion */
+
+/* Estilo general */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Contenedor del formulario (centrado) */
+form {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 600px;
+  margin: 20px;
+  padding: 32px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+}
+
+/* Encabezado opcional dentro del formulario */
+.form-title {
+  text-align: center;
+  margin-bottom: 12px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #333333;
+}
+
+/* Etiquetas */
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #333333;
+}
+
+/* Campos de entrada */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+input[type="tel"],
+select,
+textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 18px;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.06);
+  outline: none;
+}
+
+/* Botón: ocupando todo el ancho para mejor aspecto */
+button {
+  background-color: #0066cc;
+  color: #ffffff;
+  padding: 14px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  transition: background-color 0.2s, transform 0.06s;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #0052a3;
+  transform: translateY(-1px);
+}
+
+/* Mensajes de error */
+.error {
+  color: #cc0000;
+  font-size: 13px;
+  margin-top: -8px;
+  margin-bottom: 12px;
+}
+
+/* Responsive: reducir padding en pantallas pequeñas */
+@media (max-width: 420px) {
+  form {
+    padding: 20px;
+    margin: 12px;
+    border-radius: 8px;
+  }
+  .form-title {
+    font-size: 18px;
+  }
+}

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Servicios Ya - Registro de Profesional</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="auth-wrapper" style="max-width: 750px;">
+    <div class="glass-panel">
+      <h2 class="page-title">Registro de Profesional</h2>
+      <p class="subtitle" id="step-subtitle">Paso 1: Datos Personales</p>
+
+      <!-- Progress Bar -->
+      <div class="progress-bar-container">
+        <div id="progress-bar" class="progress-bar-fill"></div>
+      </div>
+
+      <form id="prestadorForm" action="/Formulario/public/index.php/prestadores" method="POST" class="registration-form">
+
+        <!-- Paso 1 -->
+        <div id="step-1" class="step-panel active">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Nombre de usuario</label>
+              <input type="text" name="user_name" required minlength="3" maxlength="50" placeholder="Ej: juanperez">
+            </div>
+            <div class="form-group">
+              <label>DNI</label>
+              <input type="text" name="dni" required pattern="\d{7,8}" placeholder="Sin puntos">
+            </div>
+            <div class="form-group">
+              <label>Ubicación</label>
+              <input type="text" name="location" required minlength="5" maxlength="100" placeholder="Ciudad, Provincia">
+            </div>
+            <div class="form-group">
+              <label>Teléfono</label>
+              <input type="tel" name="phone" required pattern="\d{8,15}" placeholder="Ej: 1123456789">
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" name="email" required placeholder="correo@ejemplo.com">
+            </div>
+            <div class="form-group">
+              <label>Contraseña</label>
+              <input type="password" name="password" required minlength="6" placeholder="Mínimo 6 caracteres">
+            </div>
+          </div>
+              <button type="button" id="btn-next" class="btn btn-primary btn-block">Siguiente →</button>
+        </div>
+
+        <!-- Paso 2 -->
+        <div id="step-2" class="step-panel hidden">
+          <div class="form-group">
+            <label>Nombre del servicio</label>
+            <input type="text" name="name" required minlength="3" maxlength="50" placeholder="Ej: Electricista Matriculado">
+          </div>
+          <div class="form-group">
+            <label>Categoría</label>
+            <select name="category" required>
+              <option value="hogar">Hogar</option>
+              <option value="tecnologia">Tecnología</option>
+              <option value="transporte">Transporte</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Descripción detallada</label>
+            <textarea name="description" required placeholder="Describe los servicios que ofreces..."></textarea>
+          </div>
+
+              <div class="form-actions">
+            <button type="button" id="btn-prev" class="btn btn-secondary">← Atrás</button>
+            <button type="submit" class="btn btn-primary btn-block">Finalizar Registro</button>
+          </div>
+        </div>
+
+      </form>
+
+      <div id="mensaje"
+        style="display:none; padding:10px; margin-top:20px; border-radius:10px; border:1px solid #4CAF50; background:rgba(76, 175, 80, 0.1); color:#4CAF50;">
+        ¡Profesional registrado con éxito!
+      </div>
+
+      <a href="home.html" class="btn btn-text" style="margin-top: 2rem;">← Volver al inicio</a>
+    </div>
+  </div>
+
+
+
+  <script>
+    const step1 = document.getElementById('step-1');
+    const step2 = document.getElementById('step-2');
+    const btnNext = document.getElementById('btn-next');
+    const btnPrev = document.getElementById('btn-prev');
+    const progressBar = document.getElementById('progress-bar');
+    const stepSubtitle = document.getElementById('step-subtitle');
+    const prestadorForm = document.getElementById('prestadorForm');
+    const prestadorMessage = document.getElementById('mensaje');
+    const apiBase = window.location.protocol === 'file:'
+      ? null
+      : `${window.location.origin}/Formulario/public`;
+
+    if (!apiBase) {
+      document.body.insertAdjacentHTML('afterbegin', '<div style="padding:16px; background:#fef2f2; color:#b91c1c; border:1px solid #fecaca; margin-bottom:1rem; border-radius:12px; font-size:0.95rem;">Por favor abre esta página con <strong>http://localhost/Formulario/public/form_prestador.html</strong> y no con <strong>file://</strong>.</div>');
+      prestadorForm.querySelector('button[type="submit"]').disabled = true;
+      btnNext.disabled = true;
+    } else {
+      prestadorForm.action = `${apiBase}/index.php/prestadores`;
+    }
+
+    btnNext.addEventListener('click', () => {
+      const inputs = step1.querySelectorAll('input[required]');
+      let allValid = true;
+      inputs.forEach(input => { if (!input.checkValidity()) { input.reportValidity(); allValid = false; } });
+      if (!allValid) return;
+
+      step1.classList.remove('active');
+      step1.classList.add('hidden');
+      step2.classList.remove('hidden');
+      step2.classList.add('active');
+
+      progressBar.style.width = '100%';
+      stepSubtitle.textContent = 'Paso 2: Datos del Servicio';
+    });
+
+    btnPrev.addEventListener('click', () => {
+      step2.classList.add('hidden');
+      step2.classList.remove('active');
+      step1.classList.remove('hidden');
+      step1.classList.add('active');
+
+      progressBar.style.width = '50%';
+      stepSubtitle.textContent = 'Paso 1: Datos Personales';
+    });
+
+    const debugPrestador = document.createElement('div');
+    debugPrestador.id = 'debug-prestador';
+    debugPrestador.style.cssText = 'margin-top:1rem;padding:12px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:12px;color:#334155;font-size:0.95rem;';
+    document.querySelector('.glass-panel').appendChild(debugPrestador);
+
+    prestadorForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      debugPrestador.textContent = 'Enviando datos al servidor...';
+      const formData = new FormData(this);
+      try {
+        const response = await fetch(this.action, {
+          method: this.method,
+          body: formData
+        });
+
+        debugPrestador.textContent = `Respuesta: ${response.status} ${response.statusText}`;
+        const data = await response.json();
+        debugPrestador.textContent += ` | JSON: ${JSON.stringify(data)}`;
+
+        if (response.ok && data.ok) {
+          prestadorMessage.style.display = "block";
+          this.reset();
+          btnPrev.click(); // Reset to step 1
+        } else {
+          alert("Error: " + (data.errors ? JSON.stringify(data.errors) : data.error || 'Respuesta no válida'));
+        }
+      } catch (error) {
+        debugPrestador.textContent = 'Error en la solicitud: ' + error.message;
+        alert('Error en la solicitud: ' + error.message);
+      }
+    });
+  </script>
+</body>
+
+</html>

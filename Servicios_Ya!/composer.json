@@ -1,0 +1,15 @@
+{
+    "name": "usuario/formulario",
+    "description": "ServiciosYa",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Usuario\\Formulario\\Models\\": "models/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "illuminate/database": "^10.0"
+    }
+}

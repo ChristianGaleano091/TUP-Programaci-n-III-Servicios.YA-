@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SERVICIOSYA! - Reserva de Turno</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .booking-page { max-width:980px; margin:0 auto; padding:1.5rem; }
+    .booking-card { border-radius:28px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); padding:1.75rem; }
+    .booking-row { display:grid; grid-template-columns:1fr 320px; gap:1.5rem; }
+    .booking-row h1 { margin:0 0 0.5rem; }
+    .field-group { margin-bottom:1rem; }
+    .field-group label { display:block; margin-bottom:0.4rem; font-weight:700; }
+    .field-group input, .field-group select { width:100%; padding:0.95rem 1rem; border-radius:18px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.05); color:white; }
+    .slot-grid { display:grid; gap:0.85rem; margin-top:1rem; }
+    .slot-btn { padding:0.95rem 1rem; border:none; border-radius:18px; background:rgba(129,140,248,0.16); color:white; cursor:pointer; font-weight:700; }
+    .slot-btn.selected { background:#818cf8; }
+    .slot-btn.disabled { opacity:0.4; cursor:not-allowed; }
+    .summary-card { border-radius:24px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); padding:1.5rem; }
+    .summary-card h2 { margin-top:0; }
+    .alert { padding:1rem; border-radius:16px; margin-bottom:1rem; }
+    .alert.success { background:rgba(34,197,94,0.12); border:1px solid #86efac; color:#166534; }
+    .alert.error { background:rgba(254,226,226,0.8); border:1px solid #fecaca; color:#991b1b; }
+    @media(max-width:900px){ .booking-row{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+  <div class="auth-wrapper">
+    <div class="glass-panel booking-page">
+      <div class="booking-card">
+        <a href="ServiciosYa.Categorias.html" class="btn btn-secondary">← Volver</a>
+        <h1>Reservar servicio</h1>
+        <p class="subtitle">Seleccioná el prestador, el servicio y el turno.</p>
+
+        <div class="booking-row">
+          <div>
+            <div class="field-group">
+              <label for="prestadorName">Prestador</label>
+              <input id="prestadorName" name="prestadorName" type="text" value="Juan Carlos Pérez" readonly>
+            </div>
+            <div class="field-group">
+              <label for="serviceName">Servicio</label>
+              <select id="serviceName" name="serviceName"></select>
+            </div>
+            <div class="field-group">
+              <label for="category">Categoría</label>
+              <select id="category" name="category">
+                <option value="electricidad">Electricidad</option>
+                <option value="plomeria">Plomería</option>
+                <option value="gas_y_aire">Gas y Aire</option>
+                <option value="pintura">Pintura</option>
+                <option value="albanileria">Albañilería</option>
+                <option value="carpinteria">Carpintería</option>
+                <option value="cerrajeria">Cerrajería</option>
+                <option value="fletes">Fletes</option>
+                <option value="climatizacion">Climatización</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label for="scheduledDate">Día</label>
+              <input id="scheduledDate" name="scheduledDate" type="date" value="2026-06-24" min="2026-06-23">
+            </div>
+            <div class="field-group">
+              <label>Horario</label>
+              <div class="slot-grid" id="slotGrid"></div>
+            </div>
+            <button id="confirmBooking" class="btn btn-primary btn-block">Confirmar reserva</button>
+            <div id="bookingFeedback" class="alert" style="display:none;"></div>
+          </div>
+          <aside class="summary-card">
+            <h2>Resumen</h2>
+            <p id="summaryText">Seleccioná un servicio y un horario.</p>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const slots = [
+      { label: '09:00 - 10:00', state: 'available' },
+      { label: '10:30 - 11:30', state: 'available' },
+      { label: '12:00 - 13:00', state: 'booked' },
+      { label: '14:00 - 15:00', state: 'available' }
+    ];
+    let selectedSlotIndex = 0;
+    const slotGrid = document.getElementById('slotGrid');
+    const summaryText = document.getElementById('summaryText');
+    const feedback = document.getElementById('bookingFeedback');
+    const scheduledDate = document.getElementById('scheduledDate');
+    const serviceName = document.getElementById('serviceName');
+    const category = document.getElementById('category');
+    const prestadorName = document.getElementById('prestadorName');
+    const confirmBooking = document.getElementById('confirmBooking');
+
+    const categoryServices = {
+      electricidad: ['Instalación eléctrica', 'Reparación de cableado', 'Cambio de tablero'],
+      plomeria: ['Desagüe tapado', 'Cambio de grifería', 'Instalación de sanitarios'],
+      gas_y_aire: ['Service de aire', 'Recarga de gas', 'Instalación de caño'],
+      pintura: ['Pintura interior', 'Pintura exterior', 'Retocado rápido'],
+      albanileria: ['Colocación de pisos', 'Revoque y tarquini', 'Construcción menor'],
+      carpinteria: ['Puerta a medida', 'Mueble empotrado', 'Reparación de marco'],
+      cerrajeria: ['Apertura de puerta', 'Cambio de cerradura', 'Llaves duplicadas'],
+      fletes: ['Mudanza pequeña', 'Retiro de muebles', 'Traslado rápido'],
+      climatizacion: ['Instalación Split', 'Service y recarga de gas', 'Visita técnica']
+    };
+
+    function getQueryParams() {
+      const query = {};
+      const search = window.location.search.replace(/^\?/, '');
+      search.split('&').forEach(pair => {
+        if (!pair) return;
+        const [key, value] = pair.split('=');
+        query[decodeURIComponent(key)] = decodeURIComponent(value || '');
+      });
+      return query;
+    }
+
+    function setServiceOptions(categoryKey, selectedService) {
+      const services = categoryServices[categoryKey] || ['Servicio general'];
+      serviceName.innerHTML = '';
+      services.forEach(service => {
+        const opt = document.createElement('option');
+        opt.value = service;
+        opt.textContent = service;
+        serviceName.appendChild(opt);
+      });
+      if (selectedService && services.includes(selectedService)) {
+        serviceName.value = selectedService;
+      }
+    }
+
+    function applyQueryParams() {
+      const params = getQueryParams();
+      if (params.prestador) {
+        prestadorName.value = params.prestador;
+      }
+      if (params.category && Array.from(category.options).some(opt => opt.value === params.category)) {
+        category.value = params.category;
+      }
+      setServiceOptions(category.value, params.serviceName);
+      updateSummary();
+    }
+
+    function renderSlots() {
+      slotGrid.innerHTML = '';
+      slots.forEach((slot, index) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = slot.label + (slot.state === 'booked' ? ' (Reservado)' : '');
+        btn.className = 'slot-btn' + (index === selectedSlotIndex ? ' selected' : '') + (slot.state === 'booked' ? ' disabled' : '');
+        btn.disabled = slot.state === 'booked';
+        btn.addEventListener('click', () => selectSlot(index));
+        slotGrid.appendChild(btn);
+      });
+      updateSummary();
+    }
+
+    function selectSlot(index) {
+      selectedSlotIndex = index;
+      renderSlots();
+    }
+
+    function updateSummary() {
+      summaryText.textContent = `Reservar ${serviceName.value} con ${prestadorName.value} el ${scheduledDate.value} a las ${slots[selectedSlotIndex].label}.`;
+    }
+
+    scheduledDate.addEventListener('change', updateSummary);
+    serviceName.addEventListener('change', updateSummary);
+    category.addEventListener('change', () => {
+      setServiceOptions(category.value);
+      updateSummary();
+    });
+
+    confirmBooking.addEventListener('click', async () => {
+      feedback.style.display = 'none';
+      const cliente = JSON.parse(localStorage.getItem('cliente'));
+      if (!cliente) {
+        feedback.className = 'alert error';
+        feedback.textContent = 'Debes iniciar sesión para realizar una reserva.';
+        feedback.style.display = 'block';
+        return;
+      }
+      const payload = new FormData();
+      payload.append('client_id', cliente.id);
+      payload.append('prestador_name', prestadorName.value);
+      payload.append('service_name', serviceName.value);
+      payload.append('category', category.value);
+      payload.append('scheduled_date', scheduledDate.value);
+      payload.append('scheduled_time', slots[selectedSlotIndex].label);
+
+      try {
+        const response = await fetch('/Formulario/public/index.php/reservas', {
+          method: 'POST',
+          body: payload
+        });
+
+        const contentType = response.headers.get('content-type') || '';
+        let data;
+        if (contentType.includes('application/json')) {
+          data = await response.json();
+        } else {
+          const text = await response.text();
+          throw new Error('Respuesta inesperada del servidor: ' + text);
+        }
+
+        if (response.ok && data.ok) {
+          feedback.className = 'alert success';
+          feedback.textContent = 'Reserva confirmada correctamente.';
+          feedback.style.display = 'block';
+        } else {
+          feedback.className = 'alert error';
+          feedback.textContent = data.error || 'Error al crear la reserva.';
+          feedback.style.display = 'block';
+        }
+      } catch (error) {
+        feedback.className = 'alert error';
+        feedback.textContent = error.message;
+        feedback.style.display = 'block';
+      }
+    });
+
+    setServiceOptions(category.value);
+    applyQueryParams();
+    renderSlots();
+  </script>
+</body>
+</html>

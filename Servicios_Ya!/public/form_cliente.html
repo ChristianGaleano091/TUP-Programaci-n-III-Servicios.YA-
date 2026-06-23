@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Servicios Ya - Registro de Cliente</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="auth-wrapper" style="max-width: 600px;">
+    <div class="glass-panel">
+      <h2
+        style="font-size: 1.8rem; margin-bottom: 0.5rem; background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+        Registro de Cliente</h2>
+      <p class="subtitle" style="margin-bottom: 1rem;">Completa tus datos personales</p>
+
+      <form id="clienteForm" action="/Formulario/public/index.php/clientes" method="POST">
+        <div class="form-group">
+          <label>Nombre del cliente:</label>
+          <input type="text" name="name" required minlength="3" maxlength="50">
+        </div>
+
+        <div class="form-group">
+          <label>DNI:</label>
+          <input type="text" name="dni" required pattern="\d{7,8}">
+        </div>
+
+        <div class="form-group">
+          <label>Ubicación:</label>
+          <input type="text" name="location" required minlength="5" maxlength="100">
+        </div>
+
+        <div class="form-group">
+          <label>Email:</label>
+          <input type="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+          <label>Contraseña:</label>
+          <input type="password" name="password" required minlength="6" placeholder="Mínimo 6 caracteres">
+        </div>
+
+        <div class="form-group">
+          <label>Teléfono:</label>
+          <input type="tel" name="phone" required pattern="\d{8,15}">
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Registrarse como Cliente</button>
+      </form>
+
+      <div id="mensaje"
+        style="display:none; padding:10px; margin-top:20px; border-radius:10px; border:1px solid #4CAF50; background:rgba(76, 175, 80, 0.1); color:#4CAF50;">
+        ¡Cliente registrado con éxito!
+      </div>
+
+      <a href="home.html" class="btn btn-text">← Volver al inicio</a>
+    </div>
+  </div>
+
+  <script>
+    const clienteForm = document.getElementById("clienteForm");
+    const clienteMessage = document.getElementById("mensaje");
+    const apiBase = window.location.protocol === 'file:'
+      ? null
+      : `${window.location.origin}/Formulario/public`;
+
+    if (!apiBase) {
+      document.body.insertAdjacentHTML('afterbegin', '<div style="padding:16px; background:#fef2f2; color:#b91c1c; border:1px solid #fecaca; margin-bottom:1rem; border-radius:12px; font-size:0.95rem;">Por favor abre esta página con <strong>http://localhost/Formulario/public/form_cliente.html</strong> y no con <strong>file://</strong>.</div>');
+      clienteForm.querySelector('button[type="submit"]').disabled = true;
+    } else {
+      clienteForm.action = `${apiBase}/index.php/clientes`;
+    }
+
+    const debugCliente = document.createElement('div');
+    debugCliente.id = 'debug-cliente';
+    debugCliente.style.cssText = 'margin-top:1rem;padding:12px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:12px;color:#334155;font-size:0.95rem;';
+    document.querySelector('.glass-panel').appendChild(debugCliente);
+
+    clienteForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      debugCliente.textContent = 'Enviando datos al servidor...';
+      const formData = new FormData(this);
+      try {
+        const response = await fetch(this.action, {
+          method: this.method,
+          body: formData
+        });
+
+        const text = await response.text();
+        debugCliente.innerHTML = `Respuesta: ${response.status} ${response.statusText}<br>Contenido:<pre style="white-space:pre-wrap;">${text}</pre>`;
+
+        try {
+          const data = JSON.parse(text);
+          if (response.ok && data.ok) {
+            clienteMessage.style.display = "block";
+            this.reset();
+          } else {
+            alert("Error: " + (data.errors ? JSON.stringify(data.errors) : data.error || 'Respuesta no válida'));
+          }
+        } catch (jsonError) {
+          alert('Error en la respuesta JSON: ' + jsonError.message + '\nContenido devuelto: ' + text);
+        }
+      } catch (error) {
+        debugCliente.textContent = 'Error en la solicitud: ' + error.message;
+        alert('Error en la solicitud: ' + error.message);
+      }
+    });
+  </script>
+</body>
+
+</html>
